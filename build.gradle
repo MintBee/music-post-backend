@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.vividsolutions:jts-core'
+    implementation 'org.hibernate:hibernate-spatial'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
