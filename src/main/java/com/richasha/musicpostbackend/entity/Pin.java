@@ -16,7 +16,7 @@ public class Pin {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false, orphanRemoval = true)
     @JoinColumn(name = "owner_id", nullable = false)
-    private AppUserDetail owner;
+    private UserEntity owner;
 
     @Column(name = "coordinate", nullable = false)
     private Point coordinate;

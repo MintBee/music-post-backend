@@ -1,7 +1,7 @@
 package com.richasha.musicpostbackend.repo;
 
 import com.richasha.musicpostbackend.entity.Post;
-import com.richasha.musicpostbackend.entity.AppUserDetail;
+import com.richasha.musicpostbackend.entity.UserEntity;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -20,7 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByOrderByLikeCount(Pageable pageable);
 
-    List<Post> findByOriginalPoster(AppUserDetail originalPoster);
+    List<Post> findByOriginalPoster(UserEntity originalPoster);
 
 
 }

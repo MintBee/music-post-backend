@@ -5,11 +5,13 @@ import com.richasha.musicpostbackend.entity.Post;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Set;
+import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Set<Comment> findByPost(@NonNull Post post);
+    List<Comment> findByPost(@NonNull Post post);
+
     boolean existsByPost(@NonNull Post post);
+
     @Override
     void deleteById(@NonNull Long id);
 }

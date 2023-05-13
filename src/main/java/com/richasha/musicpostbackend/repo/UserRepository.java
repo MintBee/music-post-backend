@@ -1,14 +1,19 @@
 package com.richasha.musicpostbackend.repo;
 
-import com.richasha.musicpostbackend.entity.AppUserDetail;
+import com.richasha.musicpostbackend.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface UserRepository extends JpaRepository<AppUserDetail, Long> {
-    AppUserDetail findByAuthId(String authId);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    @Transactional
+    @Modifying
+    @Query("update UserEntity u set u.password = ?1 where u.username = ?2")
+    void updatePasswordByUsername(String password, String username);
+    UserEntity findByUsername(String username);
 
-    AppUserDetail findByNickname(String nickname);
+    boolean existsByUsername(String username);
 
-    boolean existsByNickname(String nickname);
-
-    boolean existsByAuthId(String authId);
+    void deleteByUsername(String username);
 }

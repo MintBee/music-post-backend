@@ -20,7 +20,7 @@ public class Post {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false, orphanRemoval = true)
     @JoinColumn(name = "original_poster_id", nullable = false)
-    private AppUserDetail originalPoster;
+    private UserEntity originalPoster;
 
     @Column(name = "title", nullable = false)
     private String title;

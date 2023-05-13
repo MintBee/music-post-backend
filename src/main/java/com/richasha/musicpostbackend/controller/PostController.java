@@ -13,7 +13,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
-    final PostRecommendationService postService;
+    private final PostRecommendationService postService;
 
     @Autowired
     public PostController(PostRecommendationService postService) {

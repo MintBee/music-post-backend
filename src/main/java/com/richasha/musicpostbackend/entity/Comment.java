@@ -15,7 +15,7 @@ public class Comment {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false, orphanRemoval = true)
     @JoinColumn(name = "commenter_id", nullable = false)
-    private AppUserDetail commenter;
+    private UserEntity commenter;
 
     @Column(name = "comment_text", nullable = false, length = 511)
     private String commentText;
