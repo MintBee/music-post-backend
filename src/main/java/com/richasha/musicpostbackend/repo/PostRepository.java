@@ -1,10 +1,11 @@
 package com.richasha.musicpostbackend.repo;
 
 import com.richasha.musicpostbackend.entity.Post;
-import com.richasha.musicpostbackend.entity.User;
+import com.richasha.musicpostbackend.entity.AppUserDetail;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,5 +18,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Override
     void deleteById(@NonNull Long id);
 
-    List<Post> findByOriginalPoster(User originalPoster);
+    List<Post> findAllByOrderByLikeCount(Pageable pageable);
+
+    List<Post> findByOriginalPoster(AppUserDetail originalPoster);
+
+
 }

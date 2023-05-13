@@ -1,14 +1,12 @@
 package com.richasha.musicpostbackend.repo;
 
-import com.richasha.musicpostbackend.entity.User;
+import com.richasha.musicpostbackend.entity.AppUserDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface UserRepository extends JpaRepository<AppUserDetail, Long> {
+    AppUserDetail findByAuthId(String authId);
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByAuthId(String authId);
-
-    User findByNickname(String nickname);
+    AppUserDetail findByNickname(String nickname);
 
     boolean existsByNickname(String nickname);
 

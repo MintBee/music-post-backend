@@ -1,6 +1,7 @@
 package com.richasha.musicpostbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +20,7 @@ public class Post {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false, orphanRemoval = true)
     @JoinColumn(name = "original_poster_id", nullable = false)
-    private User originalPoster;
+    private AppUserDetail originalPoster;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -32,4 +34,6 @@ public class Post {
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private Set<Comment> comments = new LinkedHashSet<>();
 
+    public Post() {
+    }
 }

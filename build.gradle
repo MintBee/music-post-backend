@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.awspring.cloud:spring-cloud-aws-dependencies'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws-jdbc'
+
     implementation 'com.vividsolutions:jts-core'
     implementation 'org.hibernate:hibernate-spatial'
 
@@ -29,8 +32,13 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.codehaus.groovy:groovy-all'
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation 'org.spockframework:spock-spring'
 }
 
 tasks.named('test') {
