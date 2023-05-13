@@ -1,19 +1,23 @@
 package com.richasha.musicpostbackend.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.richasha.musicpostbackend.entity.MusicEntity;
+import lombok.Data;
 
-import java.util.List;
+import java.awt.*;
+import java.io.Serializable;
+import java.util.Set;
 
-@Getter
-@Setter
-public class PostDto {
-    private String title;
-    private String content;
-    private String genre;
-    private String artist;
-    private String song;
-    private String originalPoster;
-    private int likeCount;
-    private List<CommentDto> commentDtos;
+/**
+ * A DTO for the {@link com.richasha.musicpostbackend.entity.PostEntity} entity
+ */
+@Data
+public class PostDto implements Serializable {
+    private final Long id;
+    private final UserDto originalPoster;
+    private final String title;
+    private final String description;
+    private final int likeCount;
+    private final MusicEntity music;
+    private final Point coordinate;
+    private final Set<CommentDto> commentEntities;
 }

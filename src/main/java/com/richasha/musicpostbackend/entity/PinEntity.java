@@ -6,9 +6,10 @@ import lombok.Setter;
 import org.springframework.data.geo.Point;
 
 @Entity
+@Table(name = "pin")
 @Getter
 @Setter
-public class Pin {
+public class PinEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -22,7 +23,7 @@ public class Pin {
     private Point coordinate;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JoinColumn(name = "selected_music_id")
-    private Music selectedMusic;
+    @JoinColumn(name = "music_id")
+    private MusicEntity music;
 
 }

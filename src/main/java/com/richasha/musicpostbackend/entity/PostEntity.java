@@ -4,15 +4,21 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "post")
 @Getter
 @Setter
 @AllArgsConstructor
-public class Post {
+public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -28,12 +34,20 @@ public class Post {
     @Column(name = "description", length = 1023)
     private String description;
 
-    @Column(name = "like_count", nullable = false)
-    private int likeCount = 0;
+    @Column(name = "like_count", nullable = false, columnDefinition = "integer default 0")
+    private int likeCount;
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true)
-    private Set<Comment> comments = new LinkedHashSet<>();
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JoinColumn(name = "music_id")
+    private MusicEntity music;
 
-    public Post() {
+    @Column(name = "coordinate")
+    @JdbcTypeCode(SqlTypes.POINT)
+    private Point coordinate;
+
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<CommentEntity> comments = new ArrayList<>();
+
+    public PostEntity() {
     }
 }

@@ -3,7 +3,8 @@ package com.richasha.musicpostbackend.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Comment {
+@Table(name = "comment")
+public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -11,7 +12,7 @@ public class Comment {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    private PostEntity post;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false, orphanRemoval = true)
     @JoinColumn(name = "commenter_id", nullable = false)
