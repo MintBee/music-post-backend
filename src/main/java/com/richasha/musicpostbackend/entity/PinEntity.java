@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.data.geo.Point;
 
 @Entity
-@Table(name = "pin")
+@Table(name = "pin", schema = "public")
 @Getter
 @Setter
 public class PinEntity {

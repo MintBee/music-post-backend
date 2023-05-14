@@ -3,7 +3,7 @@ package com.richasha.musicpostbackend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "comment", schema = "public")
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

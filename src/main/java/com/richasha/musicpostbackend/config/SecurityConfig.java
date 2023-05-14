@@ -38,7 +38,10 @@ public class SecurityConfig {
                         "authentication.principal.id == #userId")
                 )
                 .anyRequest().permitAll()
-        ).httpBasic();
+        )
+                .formLogin()
+                .and()
+                .httpBasic();
 
         return http.build();
     }

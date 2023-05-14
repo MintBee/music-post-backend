@@ -1,6 +1,5 @@
 package com.richasha.musicpostbackend.security;
 
-import com.richasha.musicpostbackend.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
