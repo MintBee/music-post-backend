@@ -28,17 +28,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //todo
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                .requestMatchers("/api/posts/**").authenticated()
-                .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
-                .requestMatchers("/api/comments/**").authenticated()
-                .requestMatchers("/api/users/{userId}/**")
-                .access(new WebExpressionAuthorizationManager(
-                        "authentication.principal.id == #userId")
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers("/api/posts/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
+                        .requestMatchers("/api/comments/**").authenticated()
+                        .requestMatchers("/api/users/{userId}/**").authenticated()
+                        .anyRequest().permitAll()
                 )
-                .anyRequest().permitAll()
-        )
                 .formLogin()
                 .and()
                 .httpBasic();

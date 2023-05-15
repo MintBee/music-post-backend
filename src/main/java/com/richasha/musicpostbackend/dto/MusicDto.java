@@ -9,7 +9,6 @@ import java.io.Serializable;
  */
 @Data
 public class MusicDto implements Serializable {
-    private final String genre;
     private final String artist;
     private final String songName;
 }

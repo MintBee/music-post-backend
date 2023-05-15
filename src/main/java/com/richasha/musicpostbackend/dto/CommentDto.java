@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 @Data
 public class CommentDto implements Serializable {
+    private final Long id;
     private final Long postId;
     private final UserDto commenter;
     private final String commentText;

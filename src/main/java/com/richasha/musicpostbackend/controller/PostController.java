@@ -1,31 +1,56 @@
 package com.richasha.musicpostbackend.controller;
 
+import com.richasha.musicpostbackend.dto.PostDto;
 import com.richasha.musicpostbackend.entity.PostEntity;
-import com.richasha.musicpostbackend.service.PostRecommendationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.richasha.musicpostbackend.service.PostService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/posts")
 public class PostController {
-    private final PostRecommendationService postService;
-
-
-    @Autowired
-    public PostController(PostRecommendationService postService) {
-        this.postService = postService;
-    }
+    private final PostService postService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
-    public Set<PostEntity> getPostsByRecommendation(
-            @RequestParam(value = "count", defaultValue = "10", required = false)
-            Integer postCount
+    public List<PostDto> getPosts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
     ) {
-        return postService.getPosts(postCount);
+        return postService.getPaginatedPosts(page, size)
+                .stream().map(this::convertToDto).toList();
     }
+
+    @GetMapping("{postId}/related-posts")
+    public List<PostDto> getRelatedPostsById(@PathVariable Long postId) {
+        return postService.getRelatedPostsById(postId)
+                .stream().map(this::convertToDto).toList();
+    }
+
+    @PostMapping()
+    public PostDto createPost(@RequestBody PostDto post) {
+        return convertToDto(postService.createPost(initEntity(post)));
+    }
+
+    private PostDto convertToDto(PostEntity postEntity) {
+        return modelMapper.map(postEntity, PostDto.class);
+    }
+
+    private PostEntity initEntity(PostDto postDto) {
+        var newPost = convertToEntity(postDto);
+        newPost.setId(null);
+        newPost.setLikeCount(0);
+        newPost.setComments(new ArrayList<>());
+        return newPost;
+    }
+
+    private PostEntity convertToEntity(PostDto postDto) {
+        return modelMapper.map(postDto, PostEntity.class);
+    }
+
 }

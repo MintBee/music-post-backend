@@ -43,6 +43,12 @@ public class PostEntity {
     @JdbcTypeCode(SqlTypes.POINT)
     private Point coordinate;
 
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "location_name")
+    private String location_name;
+
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<CommentEntity> comments = new ArrayList<>();
 
