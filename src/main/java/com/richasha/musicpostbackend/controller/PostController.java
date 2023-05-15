@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -22,7 +22,7 @@ public class PostController {
     }
 
     @GetMapping
-    public Set<PostEntity> getPostsByRecommendation(
+    public List<PostEntity> getPostsByRecommendation(
             @RequestParam(value = "count", defaultValue = "10", required = false)
             Integer postCount
     ) {

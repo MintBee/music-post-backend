@@ -2,9 +2,9 @@ package com.richasha.musicpostbackend.service;
 
 import com.richasha.musicpostbackend.entity.PostEntity;
 
-import java.util.Set;
+import java.util.List;
 
 
 public interface PostRecommendationService {
-    Set<PostEntity> getPosts(int count);
+    List<PostEntity> getPosts(int count);
 }

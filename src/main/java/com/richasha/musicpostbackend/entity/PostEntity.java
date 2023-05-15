@@ -9,9 +9,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "post")
