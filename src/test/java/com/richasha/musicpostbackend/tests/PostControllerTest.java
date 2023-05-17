@@ -16,11 +16,11 @@ public class PostControllerTest {
 
     @Autowired private TestRestTemplate template;
 
-//    @Test
-//    public void givenAuthRequest_shouldSucceedWith200() throws Exception {
-//        var result = template.withBasicAuth("timmy", "timmy")
-//                .getForEntity(BASE_URL + "/api/posts", Object.class);
-//        System.out.println(result.toString());
-//        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
-//    }
+    @Test
+    public void givenAuthRequest_shouldSucceedWith200() throws Exception {
+        var result = template.withBasicAuth("timmy", "timmy")
+                .getForEntity("/api/test", String.class);
+        System.out.println(result.toString());
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
 }
