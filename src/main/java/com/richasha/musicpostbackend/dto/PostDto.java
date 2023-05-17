@@ -2,24 +2,27 @@ package com.richasha.musicpostbackend.dto;
 
 import lombok.Data;
 
-import java.awt.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.NoArgsConstructor;
 
 /**
  * A DTO for the {@link com.richasha.musicpostbackend.entity.PostEntity} entity
  */
 @Data
+@NoArgsConstructor
 public class PostDto implements Serializable {
-    private final Long id;
-    private final UserDto originalPoster;
-    private final String title;
-    private final String description;
-    private final int likeCount = 0;
-    private final MusicDto music;
-    private final Point coordinate;
-    private final String address;
-    private final String location_name;
-    private final List<CommentDto> comments = new ArrayList<>();
+    private Long id;
+    private UserDto originalPoster;
+    private String title;
+    private String description;
+    private int likeCount = 0;
+    private MusicDto music;
+    private String address;
+    private String location_name;
+    private List<CommentDto> comments = new ArrayList<>();
+    private PointDto coordinate;
 }

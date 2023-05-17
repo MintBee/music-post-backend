@@ -22,4 +22,7 @@ public class MusicEntity {
 
     @Column(name = "song_name", nullable = false)
     private String songName;
+
+    @Column(name = "music_url", nullable = false)
+    private String music_url;
 }

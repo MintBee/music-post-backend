@@ -66,7 +66,6 @@ public class MyUserDetailsService implements UserDetailsManager {
     }
 
     @Override
-    @Transactional
     public boolean userExists(String username) {
         return userRepository.existsByUsername(username);
     }

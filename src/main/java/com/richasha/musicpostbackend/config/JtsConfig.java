@@ -1,13 +1,13 @@
 package com.richasha.musicpostbackend.config;
 
-import org.modelmapper.ModelMapper;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelMapperConfig {
+public class JtsConfig {
     @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
+    public GeometryFactory geometryFactory() {
+        return new GeometryFactory();
     }
 }

@@ -3,11 +3,10 @@ package com.richasha.musicpostbackend.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.locationtech.jts.geom.Point;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,8 +39,7 @@ public class PostEntity {
     @JoinColumn(name = "music_id")
     private MusicEntity music;
 
-    @Column(name = "coordinate")
-    @JdbcTypeCode(SqlTypes.POINT)
+    @Column(name = "coordinate", columnDefinition = "geometry(Point, 4326)")
     private Point coordinate;
 
     @Column(name = "address", nullable = false)
@@ -51,7 +50,4 @@ public class PostEntity {
 
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<CommentEntity> comments = new ArrayList<>();
-
-    public PostEntity() {
-    }
 }

@@ -14,6 +14,7 @@ public class MyUserDetails implements UserDetails {
         this.password = password;
     }
 
+    // Grant full privilege
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
