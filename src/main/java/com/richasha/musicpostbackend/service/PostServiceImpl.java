@@ -3,6 +3,7 @@ package com.richasha.musicpostbackend.service;
 
 import com.richasha.musicpostbackend.entity.PostEntity;
 import com.richasha.musicpostbackend.repo.PostRepository;
+import com.richasha.musicpostbackend.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -19,38 +20,40 @@ public class PostServiceImpl implements PostService {
     // metric: meters
     public static final int SEARCHING_RADIUS = 50;
 
-    private final PostRepository repository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<PostEntity> getPaginatedPosts(int page, int size) throws Exception {
-        return repository.findByOrderByLikeCountDesc(PageRequest.of(page, size));
+        return postRepository.findByOrderByLikeCountDesc(PageRequest.of(page, size));
     }
 
     @Override
     public List<PostEntity> getPaginatedPostsByDistance(int page, int size,
                                                         Point currentCoordinate, double distance) {
         Pageable pageable = PageRequest.of(page, size);
-        return repository.findAllNearby(currentCoordinate.getX(), currentCoordinate.getY(),
+        return postRepository.findAllNearby(currentCoordinate.getX(), currentCoordinate.getY(),
                 distance, pageable);
     }
 
     @Override
     public PostEntity getPostById(Long postId) throws Exception {
-        return repository.findById(postId).orElseThrow();
+        return postRepository.findById(postId).orElseThrow();
     }
 
     @Override
     public PostEntity createPost(PostEntity post) {
-        return repository.save(post);
+        post.setOriginalPoster(userRepository.findByUsername(post.getOriginalPoster().getUsername()));
+        return postRepository.save(post);
     }
 
     @Override
     public List<PostEntity> getRelatedPostsById(Long postId) throws Exception {
         List<PostEntity> results = new ArrayList<>();
-        if (repository.existsById(postId)) {
-            var thePost = repository.findById(postId).orElseThrow();
+        if (postRepository.existsById(postId)) {
+            var thePost = postRepository.findById(postId).orElseThrow();
             var postCoordinate = thePost.getCoordinate();
-            var nearbyPosts = repository.findAllNearby(postCoordinate.getX(),
+            var nearbyPosts = postRepository.findAllNearby(postCoordinate.getX(),
                     postCoordinate.getY(), SEARCHING_RADIUS);
             results.addAll(nearbyPosts);
             return results;

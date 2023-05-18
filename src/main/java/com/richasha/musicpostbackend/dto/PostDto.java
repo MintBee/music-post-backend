@@ -1,5 +1,6 @@
 package com.richasha.musicpostbackend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostDto implements Serializable {
     private Long id;
     private UserDto originalPoster;

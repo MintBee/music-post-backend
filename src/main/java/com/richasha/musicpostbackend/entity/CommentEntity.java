@@ -1,10 +1,7 @@
 package com.richasha.musicpostbackend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
@@ -12,6 +9,7 @@ import lombok.Setter;
 @Table(name = "comment", schema = "public")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

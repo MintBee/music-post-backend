@@ -1,5 +1,6 @@
 package com.richasha.musicpostbackend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class MusicDto implements Serializable {
     private String artist;
     private String songName;

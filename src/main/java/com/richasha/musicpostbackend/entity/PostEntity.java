@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
