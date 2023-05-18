@@ -1,11 +1,9 @@
 package com.richasha.musicpostbackend.controller;
 
-import com.richasha.musicpostbackend.dto.PointDto;
 import com.richasha.musicpostbackend.dto.PostDto;
 import com.richasha.musicpostbackend.entity.PostEntity;
 import com.richasha.musicpostbackend.entity.util.GeometryUtil;
 import com.richasha.musicpostbackend.mapper.entitydto.PostMapper;
-import com.richasha.musicpostbackend.repo.PostRepository;
 import com.richasha.musicpostbackend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -20,7 +18,6 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final PostMapper postMapper;
-    private final PostRepository postRepository;
 
     @GetMapping
     public List<PostDto> getPosts(
@@ -33,6 +30,11 @@ public class PostController {
         Point currentPoint = GeometryUtil.parseLocation(longitude, latitude);
         return postService.getPaginatedPostsByDistance(page, size, currentPoint, radius)
                 .stream().map(postMapper::toDto).toList();
+    }
+
+    @GetMapping("{postId}")
+    public PostDto getPostById(@PathVariable Long postId) throws Exception {
+        return postMapper.toDto(postService.getPostById(postId));
     }
 
     @GetMapping("{postId}/related-posts")

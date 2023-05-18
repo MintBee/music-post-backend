@@ -26,11 +26,11 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder);
     }
 
-    // TODO: 2023-05-17 Add proper request matchers     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/api/users/login").anonymous()
                         .requestMatchers("api/test").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/users").anonymous()
                         .anyRequest().authenticated()

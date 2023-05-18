@@ -1,7 +1,9 @@
 package com.richasha.musicpostbackend.controller;
 
+import com.richasha.musicpostbackend.dto.LoginDto;
 import com.richasha.musicpostbackend.dto.UserDto;
 import com.richasha.musicpostbackend.dto.UserRegistrationDto;
+import com.richasha.musicpostbackend.entity.UserEntity;
 import com.richasha.musicpostbackend.mapper.entitydto.UserMapper;
 import com.richasha.musicpostbackend.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +27,16 @@ public class UserController {
     public UserDto createUser(@RequestBody UserRegistrationDto registrationDto) {
         var userEntity = userMapper.toEntity(registrationDto);
         return userMapper.toDto(userRepository.save(userEntity));
+    }
+
+    @PostMapping("/login")
+    public LoginDto isUserValid(@RequestBody UserRegistrationDto registrationDto) {
+        UserEntity theUser = userRepository.findByUsername(registrationDto.getUsername());
+        if (theUser != null) {
+            return new LoginDto(registrationDto.getPassword().equals(theUser.getPassword()));
+        } else {
+            return new LoginDto(false);
+        }
     }
 
     @PutMapping
