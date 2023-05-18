@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("api/test").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/users").anonymous()
+                        .requestMatchers(HttpMethod.POST, "/api/users/login").anonymous()
                         .anyRequest().authenticated()
                 ).httpBasic();
 

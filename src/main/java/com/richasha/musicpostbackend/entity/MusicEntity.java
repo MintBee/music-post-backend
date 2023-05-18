@@ -1,13 +1,17 @@
 package com.richasha.musicpostbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "music", schema = "public")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MusicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

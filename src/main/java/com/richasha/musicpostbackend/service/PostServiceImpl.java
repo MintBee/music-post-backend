@@ -5,7 +5,9 @@ import com.richasha.musicpostbackend.entity.PostEntity;
 import com.richasha.musicpostbackend.repo.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostEntity> getPaginatedPosts(int page, int size) throws Exception {
         return repository.findByOrderByLikeCountDesc(PageRequest.of(page, size));
+    }
+
+    @Override
+    public List<PostEntity> getPaginatedPostsByDistance(int page, int size,
+                                                        Point currentCoordinate, double distance) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAllNearby(currentCoordinate.getX(), currentCoordinate.getY(),
+                distance, pageable);
     }
 
     @Override
