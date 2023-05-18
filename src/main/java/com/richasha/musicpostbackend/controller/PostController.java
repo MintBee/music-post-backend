@@ -42,9 +42,9 @@ public class PostController {
     }
 
     @PostMapping
-    public PostDto post(@RequestBody PostDto postDto) {
-        var thePostEntity = postMapper.toEntity(postDto);
-        var savedEntity = postRepository.save(thePostEntity);
+    public PostDto post(@RequestBody PostDto postDto) throws Exception {
+        var thePostEntity = initEntity(postDto);
+        var savedEntity = postService.createPost(thePostEntity);
         return postMapper.toDto(savedEntity);
     }
 
