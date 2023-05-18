@@ -1,11 +1,14 @@
 package com.richasha.musicpostbackend.service;
 
 
+import com.richasha.musicpostbackend.dto.PointDto;
 import com.richasha.musicpostbackend.entity.PostEntity;
 import com.richasha.musicpostbackend.repo.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +26,14 @@ public class PostServiceImpl implements PostService {
     public List<PostEntity> getPaginatedPosts(int page, int size) throws Exception {
         return repository.findByOrderByLikeCountDesc(PageRequest.of(page, size));
     }
+
+    @Override
+    public List<PostEntity> getPaginatedPostsByDistance(int page, int size, Point point,
+                                                        double distance) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAllNearby(point.getX(), point.getY(), distance, pageable);
+    }
+
 
     @Override
     public PostEntity getPostById(Long postId) throws Exception {
@@ -46,6 +57,4 @@ public class PostServiceImpl implements PostService {
             return results;
         } else throw new EntityNotFoundException("No such post exists.");
     }
-
-
 }
