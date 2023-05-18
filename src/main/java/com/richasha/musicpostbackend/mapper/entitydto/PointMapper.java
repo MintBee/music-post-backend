@@ -14,7 +14,12 @@ public abstract class PointMapper {
     protected GeometryFactory geometryFactory;
 
     public PointDto toDto(Point point) {
-        return new PointDto(point.getX(), point.getY());
+        if (point != null) {
+            return new PointDto(point.getX(), point.getY());
+        } else {
+            return null;
+        }
+
     }
 
     public Point toEntity(PointDto pointDto) {

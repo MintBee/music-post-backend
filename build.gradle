@@ -25,13 +25,11 @@ dependencies {
     implementation 'net.postgis:postgis-jdbc:2021.1.0'
     implementation 'org.locationtech.jts:jts-core:1.19.0'
 
-
+    //spring boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
 
 
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
@@ -45,6 +43,8 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
+    //for test
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.6'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
