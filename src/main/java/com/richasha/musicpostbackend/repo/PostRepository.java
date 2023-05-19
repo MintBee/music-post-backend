@@ -36,15 +36,17 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     }
 
     @Query(
-            value = "SELECT p FROM post p " +
-                    "WHERE st_distancesphere(st_makepoint(:longitude, :latitude)," +
-                    "st_makepoint(st_x(p.coordinate), st_y(p.coordinate))) < :radiusu"
+            value = "SELECT * FROM post p " +
+                    "WHERE st_distancesphere(st_makepoint((:longitude), (:latitude))," +
+                    "st_makepoint(st_x(p.coordinate), st_y(p" +
+                    ".coordinate))) <" +
+                    " (:radius)"
             , nativeQuery = true
     )
     List<PostEntity> findAllNearby(
             @Param("longitude") double longitude,
             @Param("latitude") double latitude,
-            @Param("radius") double searching_radius,
+            @Param("radius") double radius,
             Pageable pageable
     );
 }
