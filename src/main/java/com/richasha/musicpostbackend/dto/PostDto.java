@@ -22,7 +22,7 @@ public class PostDto implements Serializable {
     private int likeCount = 0;
     private MusicDto music;
     private String address;
-    private String location_name;
+    private String locationName;
     private List<CommentDto> comments = new ArrayList<>();
     private PointDto coordinate;
 }

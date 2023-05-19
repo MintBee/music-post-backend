@@ -46,7 +46,7 @@ public class PostEntity {
     private String address;
 
     @Column(name = "location_name")
-    private String location_name;
+    private String locationName;
 
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<CommentEntity> comments = new ArrayList<>();

@@ -24,5 +24,5 @@ public class MusicEntity {
     private String songName;
 
     @Column(name = "music_url", nullable = false)
-    private String music_url;
+    private String musicUrl;
 }

@@ -13,5 +13,5 @@ import java.io.Serializable;
 public class MusicDto implements Serializable {
     private String artist;
     private String songName;
-    private String music_url;
+    private String musicUrl;
 }
