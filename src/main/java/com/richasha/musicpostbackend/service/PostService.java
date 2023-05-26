@@ -17,4 +17,7 @@ public interface PostService {
     PostEntity createPost(PostEntity post) throws Exception;
 
     List<PostEntity> getRelatedPostsById(Long postId) throws Exception;
+
+    void likePost(Long postId) throws Exception;
+
 }
