@@ -21,6 +21,10 @@ public class PinController {
                 .map(pinMapper::toDto).toList();
     }
 
+    @GetMapping("{id}")
+    public PinDto getPin(@PathVariable Long id) {
+        return pinMapper.toDto(pinService.getPin(id));
+    }
 
     @PostMapping
     public PinDto createPin(@RequestBody PinDto pinDto) {

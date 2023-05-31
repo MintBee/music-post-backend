@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface PinRepository extends JpaRepository<PinEntity, Long> {
     List<PinEntity> findAllByOwner_Username(String username);
 
-
     @Override
     @NonNull Optional<PinEntity> findById(@NonNull Long id);
 

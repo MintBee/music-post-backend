@@ -1,7 +1,9 @@
 package com.richasha.musicpostbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
@@ -9,6 +11,8 @@ import org.locationtech.jts.geom.Point;
 @Table(name = "pin", schema = "public")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PinEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +33,7 @@ public class PinEntity {
     @Column(name = "location_name")
     private String locationName;
 
-    @Column(name = "coordinate", nullable = false)
+    @Column(name = "coordinate", columnDefinition = "geometry(Point, 4326)", nullable = false)
     private Point coordinate;
 
 

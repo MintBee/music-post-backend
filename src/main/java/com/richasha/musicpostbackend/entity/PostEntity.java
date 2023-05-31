@@ -39,7 +39,7 @@ public class PostEntity {
     @JoinColumn(name = "music_id")
     private MusicEntity music;
 
-    @Column(name = "coordinate", columnDefinition = "geometry(Point, 4326)")
+    @Column(name = "coordinate", columnDefinition = "geometry(Point, 4326)", nullable = false)
     private Point coordinate;
 
     @Column(name = "address", nullable = false)
