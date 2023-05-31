@@ -1,8 +1,8 @@
 package com.richasha.musicpostbackend.service;
 
 import com.richasha.musicpostbackend.entity.PinEntity;
-import com.richasha.musicpostbackend.entity.UserEntity;
 import com.richasha.musicpostbackend.repo.PinRepository;
+import com.richasha.musicpostbackend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class PinServiceImpl implements PinService {
     private final PinRepository pinRepository;
+    private final UserRepository userRepository;
     
     @Override
     public PinEntity getPin(long pinId) throws NoSuchElementException {
@@ -20,12 +21,14 @@ public class PinServiceImpl implements PinService {
     }
 
     @Override
-    public List<PinEntity> getPins(UserEntity user) {
-        return pinRepository.findAllByOwner(user);
+    public List<PinEntity> getPins(String username) {
+        return pinRepository.findAllByOwner_Username(username);
     }
 
     @Override
     public PinEntity createPin(PinEntity pinEntity) {
+        var userForPin = userRepository.findByUsername(pinEntity.getOwner().getUsername());
+        pinEntity.setOwner(userForPin);
         return pinRepository.save(pinEntity);
     }
 
@@ -35,7 +38,6 @@ public class PinServiceImpl implements PinService {
     }
 
     @Override
-    public PinEntity deletePin(long PinId) {
-        return null;
+    public void deletePin(long PinId) {
     }
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PinDto {
     private Long id;
-    private UserDto originalPoster;
+    private UserDto owner;
     private MusicDto music;
     private String address;
     private String locationName;

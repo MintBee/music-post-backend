@@ -4,8 +4,7 @@ import com.richasha.musicpostbackend.dto.PinDto;
 import com.richasha.musicpostbackend.entity.PinEntity;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {PointMapper.class, UserMapper.class, MusicMapper.class
-        , CommentMapper.class})
+@Mapper(componentModel = "spring", uses = {PointMapper.class, UserMapper.class, MusicMapper.class})
 public interface PinMapper {
     PinDto toDto(PinEntity pinEntity);
 
