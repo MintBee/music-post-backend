@@ -19,11 +19,18 @@ public class PinEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private UserEntity owner;
 
-    @Column(name = "coordinate", nullable = false)
-    private Point coordinate;
-
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JoinColumn(name = "music_id")
     private MusicEntity music;
+
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "location_name")
+    private String locationName;
+
+    @Column(name = "coordinate", nullable = false)
+    private Point coordinate;
+
 
 }
