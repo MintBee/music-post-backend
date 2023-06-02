@@ -1,6 +1,5 @@
 package com.richasha.musicpostbackend.service;
 
-import com.richasha.musicpostbackend.dto.PointDto;
 import com.richasha.musicpostbackend.entity.PostEntity;
 import org.locationtech.jts.geom.Point;
 

@@ -33,11 +33,9 @@ public class PinServiceImpl implements PinService {
     }
 
     @Override
-    public void deletePin(PinEntity pinEntity) {
-        pinRepository.delete(pinEntity);
-    }
-
-    @Override
-    public void deletePin(long PinId) {
+    public void deletePin(long pinId) {
+        if (pinRepository.existsById(pinId)) {
+            pinRepository.deleteById(pinId);
+        }
     }
 }

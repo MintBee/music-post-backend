@@ -12,7 +12,5 @@ public interface PinService {
 
     PinEntity createPin(PinEntity pinDto);
 
-    void deletePin(PinEntity pinEntity);
-
     void deletePin(long PinId);
 }

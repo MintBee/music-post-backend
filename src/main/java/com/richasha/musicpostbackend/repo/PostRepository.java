@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
     @Override
-    Optional<PostEntity> findById(@NonNull Long id);
+    @NonNull Optional<PostEntity> findById(@NonNull Long id);
 
     @Override
     boolean existsById(@NonNull Long id);

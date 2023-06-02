@@ -1,7 +1,6 @@
 package com.richasha.musicpostbackend.mapper.entitydto;
 
 import com.richasha.musicpostbackend.dto.PointDto;
-import com.richasha.musicpostbackend.entity.util.GeometryUtil;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
