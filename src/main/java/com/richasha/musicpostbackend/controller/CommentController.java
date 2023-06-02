@@ -3,7 +3,7 @@ package com.richasha.musicpostbackend.controller;
 import com.richasha.musicpostbackend.dto.CommentDto;
 import com.richasha.musicpostbackend.entity.CommentEntity;
 import com.richasha.musicpostbackend.mapper.entitydto.CommentMapper;
-import com.richasha.musicpostbackend.repo.CommentRepository;
+import com.richasha.musicpostbackend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,22 +14,22 @@ import java.util.List;
 @RequestMapping("/api/comments")
 public class CommentController {
     private final CommentMapper commentMapper;
-    private final CommentRepository repository;
+    private final CommentService commentService;
 
-    @GetMapping("/{postId}")
-    public List<CommentDto> getCommentsOfPost(@PathVariable Long postId) throws Exception {
-        return repository.findAllByPost_Id(postId).stream().map(commentMapper::toDto).toList();
+    @GetMapping
+    public List<CommentDto> getCommentsOfPost(@RequestParam Long postId) throws Exception {
+        return commentService.getComments(postId).stream().map(commentMapper::toDto).toList();
     }
 
-    @PostMapping("/{postId}")
-    public CommentDto postCommentOfPost(@PathVariable Long postId, @RequestBody CommentDto commentDto) throws Exception {
+    @PostMapping
+    public CommentDto postCommentOfPost(@RequestBody CommentDto commentDto) throws Exception {
         CommentEntity newComment = initEntity(commentDto);
-        return commentMapper.toDto(repository.save(newComment));
+        return commentMapper.toDto(commentService.createComment(newComment));
     }
 
-    @DeleteMapping("/{postId}/{commentId}")
-    public void deleteCommentOfPost(@PathVariable Long postId, @PathVariable Long commentId) throws Exception {
-        //todo
+    @DeleteMapping("{commentId}")
+    public void deleteCommentOfPost(@PathVariable Long commentId) throws Exception {
+        commentService.deleteCommentById(commentId);
     }
 
     private CommentEntity initEntity(CommentDto commentDto) {
