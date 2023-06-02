@@ -2,6 +2,7 @@ package com.richasha.musicpostbackend.service;
 
 import com.richasha.musicpostbackend.entity.CommentEntity;
 import com.richasha.musicpostbackend.repo.CommentRepository;
+import com.richasha.musicpostbackend.repo.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,17 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @Override
     public CommentEntity createComment(CommentEntity commentEntity) {
-        return commentRepository.save(commentEntity);
+        if (userRepository.existsByUsername(commentEntity.getCommenter().getUsername())) {
+            var theUser = userRepository.findByUsername(commentEntity.getCommenter().getUsername());
+            commentEntity.setCommenter(theUser);
+            return commentRepository.save(commentEntity);
+        } else {
+            throw new NoSuchElementException("No such user singed-in for the comment.");
+        }
     }
 
     @Override
