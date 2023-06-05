@@ -38,6 +38,10 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllNearby(point.getX(), point.getY(), distance, pageable);
     }
 
+    private List<PostEntity> getPostsByDistance(int limit, Point point, double distance) {
+        return getPaginatedPostsByDistance(0, limit, point, distance);
+    }
+
     @Override
     public PostEntity getPostById(Long postId) throws Exception {
         return postRepository.findById(postId).orElseThrow();
@@ -54,37 +58,33 @@ public class PostServiceImpl implements PostService {
     public List<PostEntity> getRelatedPostsById(Long postId) throws Exception {
         int relatedPostLimit = 3;
         List<PostEntity> resultPosts = new ArrayList<>();
-
-        List<PostEntity> allPosts = postRepository.findAll();
         if (postRepository.existsById(postId)) {
-            PostEntity thePost = findThePost(postId, allPosts);
+            PostEntity thePost = postRepository.findById(postId).orElseThrow(NoSuchElementException::new);
+            List<PostEntity> allPosts = getPostsByDistance(Integer.MAX_VALUE,
+                    thePost.getCoordinate(), 300);
             List<PostEntity> postsWithSameArtist = findPostsWithSameArtist(thePost, allPosts, relatedPostLimit);
+            resultPosts.addAll(postsWithSameArtist);
             if (postsWithSameArtist.size() < relatedPostLimit) {
                 int leftPostCount = relatedPostLimit - postsWithSameArtist.size();
-                resultPosts.addAll(postsWithSameArtist);
                 Random rand = new Random();
                 resultPosts.addAll(
                         rand.ints(leftPostCount, 0, allPosts.size())
                                 .mapToObj(allPosts::get)
+                                .filter(post -> !post.getId().equals(thePost.getId()))
+                                .distinct()
                                 .toList()
                 );
             }
             return resultPosts;
-        } else {
+    } else {
             throw new NoSuchElementException("No such post of id: " + postId.toString());
         }
-    }
-
-    private static PostEntity findThePost(Long postId, List<PostEntity> allPosts) {
-        return allPosts.stream()
-                .filter(post -> post.getId().equals(postId)).findFirst()
-                .orElseThrow(NoSuchElementException::new);
     }
 
     private static List<PostEntity> findPostsWithSameArtist(PostEntity thePost, List<PostEntity> allPosts, int relatedPostLimit) {
         String artistOfThePost = thePost.getMusic().getArtist();
         return allPosts.stream()
-                .filter(post -> post.getMusic().getArtist().equals(artistOfThePost))
+                .filter(post -> post.getMusic().getArtist().equals(artistOfThePost) && !post.getId().equals(thePost.getId()))
                 .limit(relatedPostLimit).toList();
     }
 }
