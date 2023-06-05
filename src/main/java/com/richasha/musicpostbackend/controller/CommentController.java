@@ -24,7 +24,7 @@ public class CommentController {
     @PostMapping
     public CommentDto postCommentOfPost(@RequestBody CommentDto commentDto) throws Exception {
         CommentEntity newComment = initEntity(commentDto);
-        return commentMapper.toDto(commentService.createComment(newComment));
+    return commentMapper.toDto(commentService.createComment(newComment));
     }
 
     @DeleteMapping("{commentId}")
