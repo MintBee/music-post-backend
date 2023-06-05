@@ -5,7 +5,6 @@ import com.richasha.musicpostbackend.entity.PostEntity;
 import com.richasha.musicpostbackend.entity.UserEntity;
 import com.richasha.musicpostbackend.repo.PostRepository;
 import com.richasha.musicpostbackend.repo.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +38,6 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllNearby(point.getX(), point.getY(), distance, pageable);
     }
 
-
     @Override
     public PostEntity getPostById(Long postId) throws Exception {
         return postRepository.findById(postId).orElseThrow();
@@ -51,14 +52,39 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostEntity> getRelatedPostsById(Long postId) throws Exception {
-        List<PostEntity> results = new ArrayList<>();
+        int relatedPostLimit = 3;
+        List<PostEntity> resultPosts = new ArrayList<>();
+
+        List<PostEntity> allPosts = postRepository.findAll();
         if (postRepository.existsById(postId)) {
-            var thePost = postRepository.findById(postId).orElseThrow();
-            var postCoordinate = thePost.getCoordinate();
-            var nearbyPosts = postRepository.findAllNearby(postCoordinate.getX(),
-                    postCoordinate.getY(), SEARCHING_RADIUS);
-            results.addAll(nearbyPosts);
-            return results;
-        } else throw new EntityNotFoundException("No such post exists.");
+            PostEntity thePost = findThePost(postId, allPosts);
+            List<PostEntity> postsWithSameArtist = findPostsWithSameArtist(thePost, allPosts, relatedPostLimit);
+            if (postsWithSameArtist.size() < relatedPostLimit) {
+                int leftPostCount = relatedPostLimit - postsWithSameArtist.size();
+                resultPosts.addAll(postsWithSameArtist);
+                Random rand = new Random();
+                resultPosts.addAll(
+                        rand.ints(leftPostCount, 0, allPosts.size())
+                                .mapToObj(allPosts::get)
+                                .toList()
+                );
+            }
+            return resultPosts;
+        } else {
+            throw new NoSuchElementException("No such post of id: " + postId.toString());
+        }
+    }
+
+    private static PostEntity findThePost(Long postId, List<PostEntity> allPosts) {
+        return allPosts.stream()
+                .filter(post -> post.getId().equals(postId)).findFirst()
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    private static List<PostEntity> findPostsWithSameArtist(PostEntity thePost, List<PostEntity> allPosts, int relatedPostLimit) {
+        String artistOfThePost = thePost.getMusic().getArtist();
+        return allPosts.stream()
+                .filter(post -> post.getMusic().getArtist().equals(artistOfThePost))
+                .limit(relatedPostLimit).toList();
     }
 }

@@ -36,6 +36,8 @@ public class PinServiceImpl implements PinService {
     public void deletePin(long pinId) {
         if (pinRepository.existsById(pinId)) {
             pinRepository.deleteById(pinId);
+        } else {
+            throw new NoSuchElementException("No such pinId to delete");
         }
     }
 }
