@@ -11,11 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -66,17 +63,10 @@ public class PostServiceImpl implements PostService {
             resultPosts.addAll(postsWithSameArtist);
             if (postsWithSameArtist.size() < relatedPostLimit) {
                 int leftPostCount = relatedPostLimit - postsWithSameArtist.size();
-                Random rand = new Random();
-                resultPosts.addAll(
-                        rand.ints(leftPostCount, 0, allPosts.size())
-                                .mapToObj(allPosts::get)
-                                .filter(post -> !post.getId().equals(thePost.getId()))
-                                .distinct()
-                                .toList()
-                );
+                resultPosts.addAll(getFillingPosts(leftPostCount, allPosts, postsWithSameArtist));
             }
             return resultPosts;
-    } else {
+        } else {
             throw new NoSuchElementException("No such post of id: " + postId.toString());
         }
     }
@@ -86,5 +76,19 @@ public class PostServiceImpl implements PostService {
         return allPosts.stream()
                 .filter(post -> post.getMusic().getArtist().equals(artistOfThePost) && !post.getId().equals(thePost.getId()))
                 .limit(relatedPostLimit).toList();
+    }
+
+    private Collection<PostEntity> getFillingPosts(int leftPostsCount,
+                                                   List<PostEntity> source,
+                                                   List<PostEntity> alreadyAddedPosts) {
+        int notAddedPostsCount = source.size() - alreadyAddedPosts.size();
+        List<Integer> sequentialInts = new ArrayList<>(IntStream.range(0, notAddedPostsCount).boxed().toList());
+        Collections.shuffle(sequentialInts);
+        return source.stream()
+                .filter(post -> alreadyAddedPosts.stream().noneMatch(addedPost -> addedPost.getId().equals(post.getId())))
+                .limit(leftPostsCount)
+                .toList();
+
+
     }
 }
