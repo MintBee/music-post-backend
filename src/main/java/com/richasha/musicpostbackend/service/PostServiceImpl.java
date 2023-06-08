@@ -63,7 +63,8 @@ public class PostServiceImpl implements PostService {
             resultPosts.addAll(postsWithSameArtist);
             if (postsWithSameArtist.size() < relatedPostLimit) {
                 int leftPostCount = relatedPostLimit - postsWithSameArtist.size();
-                resultPosts.addAll(getFillingPosts(leftPostCount, allPosts, postsWithSameArtist));
+                resultPosts.addAll(getFillingPosts(postId, leftPostCount, allPosts,
+                        postsWithSameArtist));
             }
             return resultPosts;
         } else {
@@ -78,13 +79,12 @@ public class PostServiceImpl implements PostService {
                 .limit(relatedPostLimit).toList();
     }
 
-    private Collection<PostEntity> getFillingPosts(int leftPostsCount,
+    private Collection<PostEntity> getFillingPosts(Long sourcePostId, int leftPostsCount,
                                                    List<PostEntity> source,
                                                    List<PostEntity> alreadyAddedPosts) {
-        int notAddedPostsCount = source.size() - alreadyAddedPosts.size();
-        List<Integer> sequentialInts = new ArrayList<>(IntStream.range(0, notAddedPostsCount).boxed().toList());
-        Collections.shuffle(sequentialInts);
+        Collections.shuffle(source);
         return source.stream()
+                .filter(post -> !post.getId().equals(sourcePostId))
                 .filter(post -> alreadyAddedPosts.stream().noneMatch(addedPost -> addedPost.getId().equals(post.getId())))
                 .limit(leftPostsCount)
                 .toList();
